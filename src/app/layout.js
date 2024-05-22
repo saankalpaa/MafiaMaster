@@ -5,7 +5,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Mafia Master",
-  description: "Mafia",
+  description:
+    "An AI driven game lobby that allows a group of friend to join and play a game of Mafia together.",
 };
 
 export default function RootLayout({ children }) {
