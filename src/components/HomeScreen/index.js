@@ -5,11 +5,21 @@ import styles from "./home.module.css";
 
 import MafiaLogo from "../../assets/logo.svg";
 import Image from "next/image";
+import axios from "axios";
+import { URL } from "@/constants";
 
 export const HomeScreen = () => {
-  const handleButtonClick = () => {
-    let audio = new Audio("1.mp3");
-    audio.play();
+  const createRoom = async () => {
+    try {
+      await axios.post(`${URL}api/room`, {
+        players: ["sankalpa"],
+      });
+
+      alert("Success!");
+    } catch (e) {
+      alert(e);
+      return;
+    }
   };
 
   return (
@@ -21,14 +31,11 @@ export const HomeScreen = () => {
       <div className={styles.lowerContainer}>
         <button
           className={`lightButton ${styles.fullButton}`}
-          onClick={handleButtonClick}
+          onClick={createRoom}
         >
           Create new lobby
         </button>
-        <button
-          className={`transparentButton ${styles.fullButton}`}
-          onClick={handleButtonClick}
-        >
+        <button className={`transparentButton ${styles.fullButton}`}>
           Join existing lobby
         </button>
       </div>
