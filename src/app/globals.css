@@ -32,7 +32,18 @@ h1 {
   text-align: center;
 }
 
-.container-box {
+h2 {
+  font-family: var(--font-unbounded);
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.containerBox {
   padding: 120px 48px;
 }
 
@@ -54,6 +65,8 @@ h1 {
   padding: 24px;
   width: 100%;
   font-family: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 .underlineButton {

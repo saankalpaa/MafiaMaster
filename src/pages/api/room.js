@@ -16,7 +16,7 @@ const getRoomsPath = (filename) => {
 
 async function createRoom(body) {
   try {
-    const id = generateUniqueId();
+    const id = generateUniqueId(6);
     const roomPath = getRoomsPath(id);
     const contents = JSON.stringify({ ...body, id }, null, 4);
 
