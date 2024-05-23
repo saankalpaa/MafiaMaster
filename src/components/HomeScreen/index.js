@@ -5,21 +5,12 @@ import styles from "./home.module.css";
 
 import MafiaLogo from "../../assets/logo.svg";
 import Image from "next/image";
-import axios from "axios";
-import { URL } from "@/constants";
 
 export const HomeScreen = () => {
   const createRoom = async () => {
-    try {
-      await axios.post(`${URL}api/room`, {
-        players: ["sankalpa"],
-      });
+    let audio = new Audio("/1.mp3");
 
-      alert("Success!");
-    } catch (e) {
-      alert(e);
-      return;
-    }
+    audio.play();
   };
 
   return (
