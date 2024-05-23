@@ -12,7 +12,7 @@ export const Lobby = ({ data }) => {
   const { id, players } = data;
 
   const startGame = () => {
-    let audio = new Audio("../1.mp3");
+    let audio = new Audio("1.mp3");
     audio.play();
   };
 
