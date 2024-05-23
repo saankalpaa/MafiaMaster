@@ -23,7 +23,6 @@ body {
   max-width: 430px;
   overflow-x: hidden;
   background-color: var(--background);
-  border: 1px solid var(--black);
 }
 
 h1 {

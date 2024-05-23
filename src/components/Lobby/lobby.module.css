@@ -41,6 +41,7 @@
   align-items: center;
   justify-content: flex-start;
   font-weight: 300;
+  overflow-x: auto;
 }
 
 .inputLabel {
