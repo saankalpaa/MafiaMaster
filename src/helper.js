@@ -1,4 +1,4 @@
-export function generateUniqueId() {
+export function generateUniqueId(length) {
   let result = "";
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
@@ -6,7 +6,7 @@ export function generateUniqueId() {
 
   let counter = 0;
 
-  while (counter < 6) {
+  while (counter < length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
     counter += 1;
   }
