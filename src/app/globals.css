@@ -15,14 +15,15 @@
 * {
   box-sizing: border-box;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
 }
 
 html,
 body {
-  max-width: 100vw;
+  max-width: 430px;
   overflow-x: hidden;
   background-color: var(--background);
+  border: 1px solid var(--black);
 }
 
 h1 {
@@ -32,7 +33,18 @@ h1 {
   text-align: center;
 }
 
-.container-box {
+h2 {
+  font-family: var(--font-unbounded);
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.containerBox {
   padding: 120px 48px;
 }
 
@@ -54,4 +66,17 @@ h1 {
   padding: 24px;
   width: 100%;
   font-family: inherit;
+  text-decoration: none;
+  color: inherit;
+}
+
+.underlineButton {
+  border: none;
+  border-bottom: 1px solid var(--black);
+  background: none;
+  text-align: center;
+  font-size: 24px;
+  padding-bottom: 4px;
+  font-family: inherit;
+  opacity: 0.8;
 }
