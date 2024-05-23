@@ -15,14 +15,15 @@
 * {
   box-sizing: border-box;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
 }
 
 html,
 body {
-  max-width: 100vw;
+  max-width: 430px;
   overflow-x: hidden;
   background-color: var(--background);
+  border: 1px solid var(--black);
 }
 
 h1 {

@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 
 import { Lobby } from "@/components/Lobby";
-import { URL } from "@/constants";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/components/firebaseConfig";
 
 export default function LobbyMain({ params }) {
   const id = params.id;
@@ -16,9 +16,8 @@ export default function LobbyMain({ params }) {
 
   const getRoom = async () => {
     try {
-      const res = await axios.get(`${URL}api/room/${id}`);
-
-      setData(res.data.room);
+      const currentData = (await getDoc(doc(db, "rooms", id))).data();
+      setData(currentData);
       setIsLoading(false);
     } catch (e) {
       router.push("/");

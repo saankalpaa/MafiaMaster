@@ -2,14 +2,12 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import axios from "axios";
 import styles from "./join.module.css";
 import { useRouter } from "next/navigation";
 
 import MafiaLogo from "../../assets/logo.svg";
 
-import { URL } from "@/constants";
-import { generateUniqueId } from "@/helper";
+import { addPlayersInTheRoom, createRoom } from "@/helper";
 
 export const JoinGame = () => {
   const router = useRouter();
@@ -18,10 +16,7 @@ export const JoinGame = () => {
 
   const joinRoom = async () => {
     try {
-      const randomUserName = "USER_" + generateUniqueId(4);
-
-      await axios.patch(`${URL}api/room/${roomId}`, { player: randomUserName });
-
+      await addPlayersInTheRoom(roomId);
       router.push(`/lobby/${roomId}`);
     } catch (e) {
       alert("Sorry! Couldn't join the room you requested for.");
@@ -29,19 +24,8 @@ export const JoinGame = () => {
     }
   };
 
-  const createRoom = async () => {
-    try {
-      const randomUserName = "USER_" + generateUniqueId(4);
-
-      const res = await axios.post(`${URL}api/room`, {
-        players: [randomUserName],
-      });
-
-      router.push(`${URL}lobby/${res.data.id}`);
-    } catch (e) {
-      alert(e);
-      return;
-    }
+  const handleLobbyCreation = () => {
+    createRoom(router);
   };
 
   return (
@@ -64,7 +48,7 @@ export const JoinGame = () => {
         <button className={`lightButton`} onClick={joinRoom}>
           Join a lobby
         </button>
-        <button className={`underlineButton`} onClick={createRoom}>
+        <button className={`underlineButton`} onClick={handleLobbyCreation}>
           Create new lobby
         </button>
       </div>
