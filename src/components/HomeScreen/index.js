@@ -4,12 +4,14 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./home.module.css";
+import { useRouter } from "next/navigation";
 
 import { createRoom } from "@/helper";
 
 import MafiaLogo from "../../assets/logo.svg";
 
 export const HomeScreen = () => {
+  const router = useRouter();
   return (
     <div className={`${styles.container} containerBox`}>
       <div className={styles.upperContainer}>
@@ -17,7 +19,7 @@ export const HomeScreen = () => {
         <h1>Welcome to Mafia Master</h1>
       </div>
       <div className={styles.lowerContainer}>
-        <button className={`lightButton`} onClick={() => createRoom()}>
+        <button className={`lightButton`} onClick={() => createRoom(router)}>
           Create new lobby
         </button>
         <Link href={"/join"} className={`transparentButton`}>
