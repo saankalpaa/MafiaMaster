@@ -17,6 +17,7 @@ export const JoinGame = () => {
   const joinRoom = async () => {
     try {
       await addPlayersInTheRoom(roomId);
+
       router.push(`/lobby/${roomId}`);
     } catch (e) {
       alert("Sorry! Couldn't join the room you requested for.");

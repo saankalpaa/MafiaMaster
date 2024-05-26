@@ -27,6 +27,9 @@ export const createRoom = async (router) => {
       id: id,
       players: [],
     });
+
+    localStorage.setItem("user", "admin");
+
     router.push(`/lobby/${id}`);
   } catch (e) {
     alert("Couldn't create the room, Sorry!");
@@ -42,6 +45,8 @@ export const addPlayersInTheRoom = async (roomId) => {
     await updateDoc(doc(db, "rooms", roomId), {
       players: [...currentData.players, randomUserName],
     });
+
+    localStorage.setItem("user", randomUserName);
   } catch (e) {
     return;
   }

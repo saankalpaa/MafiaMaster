@@ -23,6 +23,10 @@ body {
   max-width: 430px;
   overflow-x: hidden;
   background-color: var(--background);
+
+  @media screen and (min-width: 1080px) {
+    border: 1px solid var(--black);
+  }
 }
 
 h1 {
@@ -55,6 +59,7 @@ h3 {
   padding: 24px;
   width: 100%;
   font-family: inherit;
+  cursor: pointer;
 }
 
 .transparentButton {
@@ -67,6 +72,7 @@ h3 {
   font-family: inherit;
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 .underlineButton {
@@ -78,4 +84,5 @@ h3 {
   padding-bottom: 4px;
   font-family: inherit;
   opacity: 0.8;
+  cursor: pointer;
 }

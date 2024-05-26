@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Lobby } from "@/components/Lobby";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/components/firebaseConfig";
+import { addPlayersInTheRoom } from "@/helper";
 
 export default function LobbyMain({ params }) {
   const id = params.id;
@@ -25,9 +26,19 @@ export default function LobbyMain({ params }) {
   };
 
   useEffect(() => {
-    if (isLoading) {
-      getRoom();
-    }
+    (async () => {
+      if (isLoading) {
+        const user = localStorage.getItem("user");
+
+        if (user) {
+          getRoom();
+          return;
+        }
+
+        await addPlayersInTheRoom(id);
+        await getRoom();
+      }
+    })();
   }, [id]);
 
   if (isLoading) return "loading...";
