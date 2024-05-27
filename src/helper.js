@@ -37,17 +37,29 @@ export const createRoom = async (router) => {
   }
 };
 
-export const addPlayersInTheRoom = async (roomId) => {
+export const addPlayersInTheRoom = async (roomId, username) => {
   try {
     const currentData = (await getDoc(doc(db, "rooms", roomId))).data();
-    const randomUserName = "USER_" + generateUniqueId(4);
 
     await updateDoc(doc(db, "rooms", roomId), {
-      players: [...currentData.players, randomUserName],
+      players: [...currentData.players, username],
     });
-
-    localStorage.setItem("user", randomUserName);
+    localStorage.setItem("user", username);
   } catch (e) {
-    return;
+    return e;
+  }
+};
+
+export const getRoomData = async (roomId) => {
+  try {
+    const currentData = (await getDoc(doc(db, "rooms", roomId))).data();
+
+    if (!currentData) {
+      return { error: "Couldn't find the room you requested for!" };
+    }
+
+    return currentData;
+  } catch (e) {
+    return { error: "Couldn't find the room you requested for!" };
   }
 };

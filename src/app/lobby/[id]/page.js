@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Lobby } from "@/components/Lobby";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/components/firebaseConfig";
-import { addPlayersInTheRoom } from "@/helper";
+import { getRoomData } from "@/helper";
+import { RoomsContext } from "@/context/roomsContext";
+import { AskUsername } from "@/components/JoinGame/AskUsername";
 
 export default function LobbyMain({ params }) {
   const id = params.id;
@@ -15,33 +15,41 @@ export default function LobbyMain({ params }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
 
-  const getRoom = async () => {
-    try {
-      const currentData = (await getDoc(doc(db, "rooms", id))).data();
-      setData(currentData);
-      setIsLoading(false);
-    } catch (e) {
-      router.push("/");
-    }
-  };
+  const { setRoomId, askingForUsername, setAskingForUsername } =
+    useContext(RoomsContext);
 
   useEffect(() => {
     (async () => {
       if (isLoading) {
-        const user = localStorage.getItem("user");
+        const currentData = await getRoomData(id);
 
-        if (user) {
-          getRoom();
+        if (currentData.error) {
+          router.push("/");
           return;
         }
 
-        await addPlayersInTheRoom(id);
-        await getRoom();
+        setData(currentData);
+        setRoomId(id);
+
+        const user = localStorage.getItem("user");
+
+        if (user) {
+          setAskingForUsername(false);
+          setIsLoading(false);
+          return;
+        }
+
+        setAskingForUsername(true);
+        setIsLoading(false);
       }
     })();
   }, [id]);
 
   if (isLoading) return "loading...";
+
+  if (askingForUsername) {
+    return <AskUsername lobby={true} />;
+  }
 
   return <Lobby data={data} />;
 }

@@ -1,33 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import styles from "./join.module.css";
 import { useRouter } from "next/navigation";
 
 import MafiaLogo from "../../assets/logo.svg";
 
-import { addPlayersInTheRoom, createRoom } from "@/helper";
+import { createRoom, getRoomData } from "@/helper";
+import { RoomsContext } from "@/context/roomsContext";
+import { AskUsername } from "./AskUsername";
 
 export const JoinGame = () => {
   const router = useRouter();
 
-  const [roomId, setRoomId] = useState();
-
-  const joinRoom = async () => {
-    try {
-      await addPlayersInTheRoom(roomId);
-
-      router.push(`/lobby/${roomId}`);
-    } catch (e) {
-      alert("Sorry! Couldn't join the room you requested for.");
-      return;
-    }
-  };
+  const { roomId, setRoomId, askingForUsername, setAskingForUsername } =
+    useContext(RoomsContext);
 
   const handleLobbyCreation = () => {
     createRoom(router);
   };
+
+  const joinRoom = async () => {
+    const data = await getRoomData(roomId);
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    setAskingForUsername(true);
+  };
+
+  if (askingForUsername) {
+    return <AskUsername />;
+  }
 
   return (
     <div className={`${styles.container} containerBox`}>
