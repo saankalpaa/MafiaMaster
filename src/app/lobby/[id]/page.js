@@ -33,7 +33,7 @@ export default function LobbyMain({ params }) {
         const user = localStorage.getItem("user");
         const roomOfUser = localStorage.getItem("room");
 
-        if (user && roomOfUser === id) {
+        if ((user && roomOfUser === id) || user === "admin") {
           setAskingForUsername(false);
           setIsLoading(false);
           return;
