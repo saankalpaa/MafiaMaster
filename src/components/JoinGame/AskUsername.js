@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./join.module.css";
 
@@ -30,6 +30,12 @@ export const AskUsername = ({ lobby = false }) => {
       return;
     }
   };
+
+  useEffect(() => {
+    const userName = localStorage.getItem("user");
+
+    setUsername(userName);
+  }, []);
 
   return (
     <div className={`${styles.container} containerBox`}>

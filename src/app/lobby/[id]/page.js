@@ -13,9 +13,8 @@ export default function LobbyMain({ params }) {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState();
 
-  const { setRoomId, askingForUsername, setAskingForUsername } =
+  const { setRoomId, askingForUsername, setAskingForUsername, setRoomData } =
     useContext(RoomsContext);
 
   useEffect(() => {
@@ -28,12 +27,13 @@ export default function LobbyMain({ params }) {
           return;
         }
 
-        setData(currentData);
+        setRoomData(currentData);
         setRoomId(id);
 
         const user = localStorage.getItem("user");
+        const roomOfUser = localStorage.getItem("room");
 
-        if (user) {
+        if (user && roomOfUser === id) {
           setAskingForUsername(false);
           setIsLoading(false);
           return;
@@ -51,5 +51,5 @@ export default function LobbyMain({ params }) {
     return <AskUsername lobby={true} />;
   }
 
-  return <Lobby data={data} />;
+  return <Lobby />;
 }

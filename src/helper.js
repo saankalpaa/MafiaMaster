@@ -29,6 +29,7 @@ export const createRoom = async (router) => {
     });
 
     localStorage.setItem("user", "admin");
+    localStorage.setItem("room", id);
 
     router.push(`/lobby/${id}`);
   } catch (e) {
@@ -44,7 +45,9 @@ export const addPlayersInTheRoom = async (roomId, username) => {
     await updateDoc(doc(db, "rooms", roomId), {
       players: [...currentData.players, username],
     });
+
     localStorage.setItem("user", username);
+    localStorage.setItem("room", roomId);
   } catch (e) {
     return e;
   }

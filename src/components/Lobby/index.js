@@ -1,15 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import styles from "./lobby.module.css";
 
 import { URL } from "@/constants";
 
 import MafiaLogo from "../../assets/logo.svg";
+import { RoomsContext } from "@/context/roomsContext";
+import { getRoomData } from "@/helper";
 
-export const Lobby = ({ data }) => {
-  const { id, players } = data;
+export const Lobby = () => {
+  const { roomData, setRoomData } = useContext(RoomsContext);
+
+  const { id, players } = roomData;
 
   const startGame = () => {
     let audio = new Audio("../1.mp3");
@@ -21,6 +25,18 @@ export const Lobby = ({ data }) => {
 
     await navigator.clipboard.writeText(link);
   };
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const data = await getRoomData(id);
+
+      if (!data.error || data !== roomData) {
+        setRoomData(data);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className={`${styles.container} containerBox`}>

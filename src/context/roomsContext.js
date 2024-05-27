@@ -5,19 +5,19 @@ import React, { createContext, useRef, useState } from "react";
 export const RoomsContext = createContext();
 
 export const RoomsContextProvider = ({ children }) => {
-  const roomsCollectionRef = useRef(null);
-
   const [askingForUsername, setAskingForUsername] = useState(false);
   const [roomId, setRoomId] = useState();
+  const [roomData, setRoomData] = useState();
 
   return (
     <RoomsContext.Provider
       value={{
-        roomsCollectionRef,
         askingForUsername,
         setAskingForUsername,
         roomId,
         setRoomId,
+        roomData,
+        setRoomData,
       }}
     >
       {children}
