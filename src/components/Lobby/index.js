@@ -4,20 +4,35 @@ import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import styles from "./lobby.module.css";
 
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+
+import { RoomsContext } from "@/context/roomsContext";
+import { assignEachPlayerARole, getRoomData } from "@/helper";
 import { URL } from "@/constants";
 
 import MafiaLogo from "../../assets/logo.svg";
-import { RoomsContext } from "@/context/roomsContext";
-import { getRoomData } from "@/helper";
 
 export const Lobby = () => {
   const { roomData, setRoomData } = useContext(RoomsContext);
 
   const { id, players } = roomData;
 
-  const startGame = () => {
-    let audio = new Audio("../1.mp3");
-    audio.play();
+  const startGame = async () => {
+    try {
+      const roles = assignEachPlayerARole(players);
+
+      const updatedRoomData = { ...roomData, roles };
+
+      await updateDoc(doc(db, "rooms", id), {
+        ...roomData,
+        roles,
+      });
+
+      setRoomData(updatedRoomData);
+    } catch (e) {
+      return e;
+    }
   };
 
   const handleLinkCopy = async () => {

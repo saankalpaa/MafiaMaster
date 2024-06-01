@@ -66,3 +66,20 @@ export const getRoomData = async (roomId) => {
     return { error: "Couldn't find the room you requested for!" };
   }
 };
+
+export const assignEachPlayerARole = (players) => {
+  const roles = {};
+
+  const indexOfPlayerToBeAssignedMafiaRole = Math.floor(
+    Math.random() * players.length
+  );
+
+  players.forEach((player, idx) => {
+    if (idx !== indexOfPlayerToBeAssignedMafiaRole) {
+      roles[player] = "Crewmate";
+    }
+    roles[players[indexOfPlayerToBeAssignedMafiaRole]] = "Mafia";
+  });
+
+  return roles;
+};
