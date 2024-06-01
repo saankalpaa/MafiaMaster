@@ -76,7 +76,7 @@ export const assignEachPlayerARole = (players) => {
 
   players.forEach((player, idx) => {
     if (idx !== indexOfPlayerToBeAssignedMafiaRole) {
-      roles[player] = "Crewmate";
+      roles[player] = "Civilian";
     }
     roles[players[indexOfPlayerToBeAssignedMafiaRole]] = "Mafia";
   });

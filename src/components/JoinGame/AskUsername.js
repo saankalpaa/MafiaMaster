@@ -3,10 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./join.module.css";
 
-import MafiaLogo from "../../assets/logo.svg";
-
 import { RoomsContext } from "@/context/roomsContext";
 import { addPlayersInTheRoom } from "@/helper";
+import { PlayerContext } from "@/context/playerContext";
+
+import MafiaLogo from "../../assets/logo.svg";
 
 export const AskUsername = ({ lobby = false }) => {
   const router = useRouter();
@@ -14,10 +15,13 @@ export const AskUsername = ({ lobby = false }) => {
   const [username, setUsername] = useState("");
 
   const { roomId } = useContext(RoomsContext);
+  const { setName } = useContext(PlayerContext);
 
   const joinRoom = async () => {
     try {
       await addPlayersInTheRoom(roomId, username);
+
+      setName(username);
 
       if (lobby) {
         window.location.reload();

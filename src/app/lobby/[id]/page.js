@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Lobby } from "@/components/Lobby";
 import { getRoomData } from "@/helper";
 import { RoomsContext } from "@/context/roomsContext";
+import { PlayerContext } from "@/context/playerContext";
 import { AskUsername } from "@/components/JoinGame/AskUsername";
 
 export default function LobbyMain({ params }) {
@@ -16,6 +17,8 @@ export default function LobbyMain({ params }) {
 
   const { setRoomId, askingForUsername, setAskingForUsername, setRoomData } =
     useContext(RoomsContext);
+
+  const { setName } = useContext(PlayerContext);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +37,7 @@ export default function LobbyMain({ params }) {
         const roomOfUser = localStorage.getItem("room");
 
         if ((user && roomOfUser === id) || user === "admin") {
+          setName(user);
           setAskingForUsername(false);
           setIsLoading(false);
           return;

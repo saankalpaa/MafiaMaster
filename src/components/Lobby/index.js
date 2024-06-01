@@ -8,6 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 import { RoomsContext } from "@/context/roomsContext";
+import { PlayerContext } from "@/context/playerContext";
 import { assignEachPlayerARole, getRoomData } from "@/helper";
 import { URL } from "@/constants";
 
@@ -18,6 +19,7 @@ export const Lobby = () => {
   const [showRoleRevealScreen, setShowRoleRevealScreen] = useState(false);
 
   const { roomData, setRoomData } = useContext(RoomsContext);
+  const { name, setRole } = useContext(PlayerContext);
 
   const { id, players } = roomData;
 
@@ -39,6 +41,7 @@ export const Lobby = () => {
         roles,
       });
 
+      setRole(roles[name]);
       setRoomData(updatedRoomData);
     } catch (e) {
       return e;
