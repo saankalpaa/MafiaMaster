@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { RoomsContextProvider } from "@/context/roomsContext";
+import { PlayerContextProvider } from "@/context/playerContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="./favicon.ico" type="image/png" sizes="32x32" />
       </head>
       <body className={inter.className}>
-        <RoomsContextProvider>{children}</RoomsContextProvider>
+        <RoomsContextProvider>
+          <PlayerContextProvider>{children}</PlayerContextProvider>
+        </RoomsContextProvider>
       </body>
     </html>
   );
