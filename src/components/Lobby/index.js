@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./lobby.module.css";
 
@@ -12,14 +12,24 @@ import { assignEachPlayerARole, getRoomData } from "@/helper";
 import { URL } from "@/constants";
 
 import MafiaLogo from "../../assets/logo.svg";
+import { RoleRevealScreen } from "./RoleRevealScreen";
 
 export const Lobby = () => {
+  const [showRoleRevealScreen, setShowRoleRevealScreen] = useState(false);
+
   const { roomData, setRoomData } = useContext(RoomsContext);
 
   const { id, players } = roomData;
 
   const startGame = async () => {
     try {
+      if (players.length < 3) {
+        alert("You need atleast 4 players for this game!");
+        return;
+      }
+
+      setShowRoleRevealScreen(true);
+
       const roles = assignEachPlayerARole(players);
 
       const updatedRoomData = { ...roomData, roles };
@@ -52,6 +62,10 @@ export const Lobby = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  if (showRoleRevealScreen) {
+    return <RoleRevealScreen />;
+  }
 
   return (
     <div className={`${styles.container} containerBox`}>

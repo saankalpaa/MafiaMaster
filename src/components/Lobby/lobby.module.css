@@ -65,3 +65,12 @@
   gap: 12px;
   font-family: inherit;
 }
+
+.timer {
+  font-size: 64px;
+  font-family: var(--font-unbounded);
+}
+
+.roleRevealHeader {
+  font-family: var(--font-unbounded);
+}
