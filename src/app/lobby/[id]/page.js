@@ -46,7 +46,7 @@ export default function LobbyMain({ params }) {
         setName(user);
 
         if ((user && roomOfUser === id) || user === "admin") {
-          setRole(roles[user]);
+          roles && setRole(roles[user]);
           setRolesRevealed(currentData.rolesRevealed ?? false);
           setAskingForUsername(false);
           setIsLoading(false);

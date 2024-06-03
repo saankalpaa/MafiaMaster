@@ -14,7 +14,7 @@ import { db } from "../firebaseConfig";
 
 export const RoleRevealScreen = () => {
   const { role } = useContext(PlayerContext);
-  const { roomId, timer, setTimer, roomData, rolesRevealed, setRolesRevealed } =
+  const { roomId, timer, setTimer, roomData, rolesRevealed } =
     useContext(RoomsContext);
 
   useEffect(() => {
@@ -37,8 +37,6 @@ export const RoleRevealScreen = () => {
             rolesRevealed: true,
           });
 
-          setRolesRevealed(true);
-
           audio.pause();
         }
         return prevTimer - 1;
@@ -51,7 +49,7 @@ export const RoleRevealScreen = () => {
     };
   }, []);
 
-  if (rolesRevealed) {
+  if (timer === 0) {
     return (
       <div className={styles.container}>
         <h3 className={styles.roleRevealSecondHeader}>

@@ -19,7 +19,8 @@ import MafiaLogo from "../../assets/logo.svg";
 export const Lobby = () => {
   const [showRoleRevealScreen, setShowRoleRevealScreen] = useState(false);
 
-  const { roomData, setRoomData, rolesRevealed } = useContext(RoomsContext);
+  const { roomData, setRoomData, rolesRevealed, setRolesRevealed, timer } =
+    useContext(RoomsContext);
   const { name, setRole } = useContext(PlayerContext);
 
   const { id, players } = roomData;
@@ -61,25 +62,38 @@ export const Lobby = () => {
 
       if (data.error || data === roomData) return;
 
-      const { gameStarted } = data;
+      const { roles, gameStarted } = data;
 
-      setRoomData(data);
-
-      if (gameStarted && name !== "admin") {
+      if (gameStarted && name !== "admin" && !showRoleRevealScreen) {
+        setRole(roles[name]);
         setShowRoleRevealScreen(true);
       }
+
+      if (gameStarted && name === "admin") {
+        setRolesRevealed(true);
+      }
+
+      setRoomData(data);
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  if (showRoleRevealScreen || rolesRevealed) {
-    return <RoleRevealScreen />;
+  useEffect(() => {
+    if (timer === 0) {
+      setTimeout(() => {
+        setRolesRevealed(true);
+      }, 3000);
+    }
+  }, [timer]);
+
+  if (rolesRevealed) {
+    return <Story />;
   }
 
-  // if (!showRoleRevealScreen && rolesRevealed) {
-  //   return <Story />;
-  // }
+  if (showRoleRevealScreen) {
+    return <RoleRevealScreen />;
+  }
 
   return (
     <div className={`${styles.container} containerBox`}>
