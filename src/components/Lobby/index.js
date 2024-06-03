@@ -61,12 +61,11 @@ export const Lobby = () => {
 
       if (data.error || data === roomData) return;
 
-      const { roles, gameStarted } = data;
+      const { gameStarted } = data;
 
       setRoomData(data);
 
       if (gameStarted && name !== "admin") {
-        setRole(roles[name]);
         setShowRoleRevealScreen(true);
       }
     }, 3000);
@@ -74,7 +73,7 @@ export const Lobby = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (showRoleRevealScreen) {
+  if (showRoleRevealScreen || rolesRevealed) {
     return <RoleRevealScreen />;
   }
 

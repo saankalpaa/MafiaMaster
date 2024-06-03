@@ -23,7 +23,7 @@ export default function LobbyMain({ params }) {
     setRolesRevealed,
   } = useContext(RoomsContext);
 
-  const { setName } = useContext(PlayerContext);
+  const { setName, setRole } = useContext(PlayerContext);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +35,8 @@ export default function LobbyMain({ params }) {
           return;
         }
 
+        const { roles } = currentData;
+
         setRoomData(currentData);
         setRoomId(id);
 
@@ -44,6 +46,7 @@ export default function LobbyMain({ params }) {
         setName(user);
 
         if ((user && roomOfUser === id) || user === "admin") {
+          setRole(roles[user]);
           setRolesRevealed(currentData.rolesRevealed ?? false);
           setAskingForUsername(false);
           setIsLoading(false);
