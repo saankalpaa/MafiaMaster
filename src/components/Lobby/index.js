@@ -6,6 +6,8 @@ import styles from "./lobby.module.css";
 
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { RoleRevealScreen } from "./RoleRevealScreen";
+import { Story } from "./Story";
 
 import { RoomsContext } from "@/context/roomsContext";
 import { PlayerContext } from "@/context/playerContext";
@@ -13,12 +15,11 @@ import { assignEachPlayerARole, getRoomData } from "@/helper";
 import { URL } from "@/constants";
 
 import MafiaLogo from "../../assets/logo.svg";
-import { RoleRevealScreen } from "./RoleRevealScreen";
 
 export const Lobby = () => {
   const [showRoleRevealScreen, setShowRoleRevealScreen] = useState(false);
 
-  const { roomData, setRoomData } = useContext(RoomsContext);
+  const { roomData, setRoomData, rolesRevealed } = useContext(RoomsContext);
   const { name, setRole } = useContext(PlayerContext);
 
   const { id, players } = roomData;
@@ -30,18 +31,18 @@ export const Lobby = () => {
         return;
       }
 
-      setShowRoleRevealScreen(true);
-
       const roles = assignEachPlayerARole(players);
 
-      const updatedRoomData = { ...roomData, roles };
+      const updatedRoomData = { ...roomData, roles, gameStarted: true };
 
-      await updateDoc(doc(db, "rooms", id), {
-        ...roomData,
-        roles,
-      });
+      await updateDoc(doc(db, "rooms", id), updatedRoomData);
 
       setRole(roles[name]);
+
+      if (name !== "admin") {
+        setShowRoleRevealScreen(true);
+      }
+
       setRoomData(updatedRoomData);
     } catch (e) {
       return e;
@@ -58,8 +59,15 @@ export const Lobby = () => {
     const interval = setInterval(async () => {
       const data = await getRoomData(id);
 
-      if (!data.error || data !== roomData) {
-        setRoomData(data);
+      if (data.error || data === roomData) return;
+
+      const { roles, gameStarted } = data;
+
+      setRoomData(data);
+
+      if (gameStarted && name !== "admin") {
+        setRole(roles[name]);
+        setShowRoleRevealScreen(true);
       }
     }, 3000);
 
@@ -69,6 +77,10 @@ export const Lobby = () => {
   if (showRoleRevealScreen) {
     return <RoleRevealScreen />;
   }
+
+  // if (!showRoleRevealScreen && rolesRevealed) {
+  //   return <Story />;
+  // }
 
   return (
     <div className={`${styles.container} containerBox`}>
@@ -83,9 +95,11 @@ export const Lobby = () => {
           </div>
         </div>
 
-        <button className={`lightButton`} onClick={startGame}>
-          Start the game
-        </button>
+        {name == "admin" && (
+          <button className={`lightButton`} onClick={startGame}>
+            Start the game
+          </button>
+        )}
       </div>
       <div className={styles.playerList}>
         <h3>Players list</h3>

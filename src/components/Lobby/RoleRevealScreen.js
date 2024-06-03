@@ -1,18 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
+"use client";
+
+import React, { useContext, useEffect } from "react";
 import styles from "./lobby.module.css";
 import Image from "next/image";
 
+import { RoomsContext } from "@/context/roomsContext";
 import { PlayerContext } from "@/context/playerContext";
 
 import CivilianImage from "../../assets/civilian.png";
 import MafiaImage from "../../assets/mafia.png";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 export const RoleRevealScreen = () => {
-  const [timer, setTimer] = useState(3);
-
   const { role } = useContext(PlayerContext);
+  const { roomId, timer, setTimer, roomData, rolesRevealed, setRolesRevealed } =
+    useContext(RoomsContext);
 
   useEffect(() => {
+    if (rolesRevealed) return;
+
     let audio = new Audio("../clock.mp3");
     audio.play();
 
@@ -25,6 +32,13 @@ export const RoleRevealScreen = () => {
         }
 
         if (prevTimer === 1) {
+          updateDoc(doc(db, "rooms", roomId), {
+            ...roomData,
+            rolesRevealed: true,
+          });
+
+          setRolesRevealed(true);
+
           audio.pause();
         }
         return prevTimer - 1;
@@ -37,7 +51,7 @@ export const RoleRevealScreen = () => {
     };
   }, []);
 
-  if (timer === 0) {
+  if (rolesRevealed) {
     return (
       <div className={styles.container}>
         <h3 className={styles.roleRevealSecondHeader}>

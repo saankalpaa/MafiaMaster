@@ -8,6 +8,8 @@ export const RoomsContextProvider = ({ children }) => {
   const [askingForUsername, setAskingForUsername] = useState(false);
   const [roomId, setRoomId] = useState();
   const [roomData, setRoomData] = useState();
+  const [timer, setTimer] = useState(3);
+  const [rolesRevealed, setRolesRevealed] = useState(false);
 
   return (
     <RoomsContext.Provider
@@ -18,6 +20,10 @@ export const RoomsContextProvider = ({ children }) => {
         setRoomId,
         roomData,
         setRoomData,
+        timer,
+        setTimer,
+        rolesRevealed,
+        setRolesRevealed,
       }}
     >
       {children}

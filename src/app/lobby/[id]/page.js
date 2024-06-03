@@ -15,8 +15,13 @@ export default function LobbyMain({ params }) {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { setRoomId, askingForUsername, setAskingForUsername, setRoomData } =
-    useContext(RoomsContext);
+  const {
+    setRoomId,
+    askingForUsername,
+    setAskingForUsername,
+    setRoomData,
+    setRolesRevealed,
+  } = useContext(RoomsContext);
 
   const { setName } = useContext(PlayerContext);
 
@@ -36,8 +41,10 @@ export default function LobbyMain({ params }) {
         const user = localStorage.getItem("user");
         const roomOfUser = localStorage.getItem("room");
 
+        setName(user);
+
         if ((user && roomOfUser === id) || user === "admin") {
-          setName(user);
+          setRolesRevealed(currentData.rolesRevealed ?? false);
           setAskingForUsername(false);
           setIsLoading(false);
           return;
