@@ -4,10 +4,11 @@
   /* color scheme */
   --background: white;
   --text-primary: black;
+  --text-white:white;
 
   --gray: #eeeeee;
   --black: black;
-
+  --matte-black:#434343;
   --border-radius: 12px;
   --font-unbounded: "Unbounded", sans-serif;
 }
@@ -25,7 +26,7 @@ body {
   background-color: var(--background);
 
   @media screen and (min-width: 1080px) {
-    border: 1px solid var(--black);
+    border: 1px solid var(--gray);
   }
 }
 
@@ -53,18 +54,22 @@ h3 {
 
 .lightButton {
   border: none;
-  background: var(--gray);
+  background: var(--matte-black);
   text-align: center;
   font-size: 24px;
   padding: 24px;
   width: 100%;
   font-family: inherit;
   cursor: pointer;
+  color: var(--text-white);
+}
+.lightButton:hover {
+  filter: brightness(124%);
 }
 
 .transparentButton {
   border: 1px solid var(--black);
-  background: var(--gray);
+  background-color:var(--background);
   text-align: center;
   font-size: 24px;
   padding: 24px;
@@ -73,6 +78,10 @@ h3 {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+}
+
+.transparentButton:hover {
+  filter: brightness(94%);
 }
 
 .underlineButton {
@@ -85,4 +94,9 @@ h3 {
   font-family: inherit;
   opacity: 0.8;
   cursor: pointer;
+  color: var(--matte-black);
+}
+.underlineButton:hover {
+  /* color: var(--black); */
+  filter: brightness(00%);
 }
