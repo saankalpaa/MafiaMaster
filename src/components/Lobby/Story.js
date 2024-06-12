@@ -1,5 +1,7 @@
 import React from "react";
 import { Positions, Sizes, TextToSpeech } from "tts-react";
+import styles from "./lobby.module.css";
+
 
 export const Story = () => {
   return (
@@ -10,7 +12,8 @@ export const Story = () => {
       position={Positions.TL}
       rate={0.8}
     >
-      <p>
+    <div className={styles.fullImage}>
+      <p className={styles.imageText}>
         Welcome, campers! I'm your AI Game Master, here to guide you through an
         unforgettable game of Mafia. You and your friends have decided to spend
         a weekend camping in the mysterious Whispering Woods. But beware! Among
@@ -18,6 +21,7 @@ export const Story = () => {
         of night. Let's see if you can catch them before it's too late. Ready?
         Let's begin
       </p>
+      </div>
     </TextToSpeech>
   );
 };

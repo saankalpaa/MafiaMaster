@@ -92,3 +92,25 @@
   font-size: 24px;
   font-weight: normal;
 }
+
+
+.fullImage{
+  height: 100vh;
+  width: 100vw;
+  border: 20px solid black;
+  background-image: url(../../assets/camp.png);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.imageText{
+  font-size: 36px;
+  color: white;
+  font-weight: 500;
+  line-height: 150%;
+  max-width: 44ch;
+  margin-left: 64px;
+  margin-top: 64px;
+
+}
